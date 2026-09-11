@@ -1,6 +1,6 @@
 {
   "name": "@instjs/router",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Deterministic route matching for Inst.js applications.",
   "license": "MIT",
   "type": "module",
