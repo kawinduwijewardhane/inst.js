@@ -1,6 +1,6 @@
 {
   "name": "@instjs/adapter-node",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Node.js HTTP adapter for Inst.js Web-standard applications.",
   "license": "MIT",
   "type": "module",
