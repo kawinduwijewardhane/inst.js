@@ -1,6 +1,6 @@
 {
   "name": "@instjs/compiler",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Server, browser, and static build tooling for Inst.js.",
   "license": "MIT",
   "type": "module",
