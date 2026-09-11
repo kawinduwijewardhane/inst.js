@@ -1,0 +1,83 @@
+name: Release validation
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: [self-hosted, Linux, X64]
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.15.1
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify release tag
+        run: node scripts/verify-release-tag.mjs "$GITHUB_REF_NAME"
+
+      - name: Build
+        run: pnpm build
+
+      - name: Verify starter
+        run: pnpm example:check
+
+      - name: Verify development server
+        run: pnpm integration:development
+
+      - name: Verify browser delivery
+        run: pnpm integration:browser
+
+      - name: Verify production server
+        run: pnpm integration:production
+
+      - name: Verify packages
+        run: pnpm release:check
+
+      - name: Verify packed installation
+        run: pnpm release:install-check
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Create verified release tarballs
+        run: |
+          rm -rf release-artifacts
+          mkdir release-artifacts
+          for package_dir in packages/*; do
+            if [ -f "$package_dir/package.json" ]; then
+              (cd "$package_dir" && pnpm pack --pack-destination "$GITHUB_WORKSPACE/release-artifacts")
+            fi
+          done
+          test "$(find release-artifacts -maxdepth 1 -name '*.tgz' -type f | wc -l)" -eq 7
+          ls -1 release-artifacts/*.tgz
+
+      - name: Upload verified release tarballs
+        uses: actions/upload-artifact@v4
+        with:
+          name: instjs-${{ github.ref_name }}-packages
+          path: release-artifacts/*.tgz
+          if-no-files-found: error
+          retention-days: 30
