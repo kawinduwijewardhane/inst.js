@@ -1,0 +1,25 @@
+{
+  "name": "@instjs/compiler",
+  "version": "1.0.3",
+  "description": "Server, browser, and static build tooling for Inst.js.",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist", "!dist/**/*.test.*"],
+  "exports": {
+    ".": {"types": "./dist/main.d.ts", "import": "./dist/main.js"},
+    "./client": {"types": "./dist/client.d.ts", "import": "./dist/client.js"},
+    "./routes": {"types": "./dist/routes.d.ts", "import": "./dist/routes.js"},
+    "./units": {"types": "./dist/units.d.ts", "import": "./dist/units.js"}
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {"esbuild": "^0.28.2"},
+  "devDependencies": {"@types/node": "^22.18.3", "vitest": "^3.2.4"},
+  "repository": {"type": "git", "url": "git+https://github.com/kawinduwijewardhane/inst.js.git", "directory": "packages/compiler"},
+  "publishConfig": {"access": "public"},
+  "engines": {"node": ">=22.0.0"}
+}

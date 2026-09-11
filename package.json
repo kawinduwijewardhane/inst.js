@@ -1,0 +1,27 @@
+{
+  "name": "instjs",
+  "version": "1.0.3",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.15.1",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "test": "pnpm -r --if-present test && node --test scripts/*.test.mjs",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "example:check": "node scripts/verify-example.mjs",
+    "integration:development": "node scripts/verify-development.mjs",
+    "integration:browser": "node scripts/verify-browser.mjs",
+    "integration:production": "node scripts/verify-production.mjs",
+    "release:check": "node scripts/verify-packages.mjs",
+    "release:install-check": "node scripts/verify-packed-install.mjs",
+    "clean": "pnpm -r --if-present clean"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.3",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

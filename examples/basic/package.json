@@ -1,0 +1,17 @@
+{
+  "name": "@instjs/example-basic",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ../../packages/cli/dist/index.js build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "node -e \"fs.rmSync('.inst',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@instjs/cli": "workspace:*",
+    "@instjs/core": "workspace:*",
+    "@instjs/render": "workspace:*",
+    "@instjs/runtime": "workspace:*"
+  }
+}

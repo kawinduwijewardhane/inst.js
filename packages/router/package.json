@@ -1,0 +1,19 @@
+{
+  "name": "@instjs/router",
+  "version": "1.0.3",
+  "description": "Deterministic route matching for Inst.js applications.",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist", "!dist/**/*.test.*"],
+  "exports": {".": {"types": "./dist/index.d.ts", "import": "./dist/index.js"}},
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\""
+  },
+  "devDependencies": {"vitest": "^3.2.4"},
+  "repository": {"type": "git", "url": "git+https://github.com/kawinduwijewardhane/inst.js.git", "directory": "packages/router"},
+  "publishConfig": {"access": "public"},
+  "engines": {"node": ">=22.0.0"}
+}

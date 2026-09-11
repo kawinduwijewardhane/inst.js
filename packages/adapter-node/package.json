@@ -1,0 +1,22 @@
+{
+  "name": "@instjs/adapter-node",
+  "version": "1.0.3",
+  "description": "Node.js HTTP adapter for Inst.js Web-standard applications.",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist", "!dist/**/*.test.*"],
+  "exports": {
+    ".": {"types": "./dist/index.d.ts", "import": "./dist/index.js"},
+    "./assets": {"types": "./dist/assets.d.ts", "import": "./dist/assets.js"}
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\""
+  },
+  "devDependencies": {"@types/node": "^22.18.3", "@instjs/runtime": "workspace:*", "vitest": "^3.2.4"},
+  "repository": {"type": "git", "url": "git+https://github.com/kawinduwijewardhane/inst.js.git", "directory": "packages/adapter-node"},
+  "publishConfig": {"access": "public"},
+  "engines": {"node": ">=22.0.0"}
+}
