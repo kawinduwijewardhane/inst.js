@@ -7,16 +7,10 @@ pnpm install --frozen-lockfile
 pnpm build
 pnpm typecheck
 pnpm test
-pnpm example:check
-pnpm integration:development
-pnpm integration:browser
-pnpm integration:production
-pnpm release:check
-pnpm release:install-check
 ```
 
-Build before testing: package imports resolve through their public `dist` exports. Integration checks must run sequentially because development verification temporarily edits the basic example and restores it afterward.
+Keep changes focused, preserve strict TypeScript and Web-standard runtime contracts, and add regression coverage for behavior changes.
 
-Keep changes focused, preserve strict TypeScript and Web-standard runtime contracts, and add regression coverage for behavior changes. Document public API and output-format changes in the migration guide and changelog. Keep platform-specific code in adapters, compiler, or CLI packages. Capability Units and explicit browser boundaries are part of the v1 architecture.
+Document changes that affect public APIs, documented behavior, or generated output. Keep platform-specific code in the appropriate adapter, compiler, or CLI package, and preserve Inst.js's capability-first architecture and explicit browser boundaries.
 
-Pull requests run on the repository's self-hosted Linux runner. Do not change runner configuration or credentials as part of a framework change. Package publication is separate from CI; see [releasing](docs/releasing.md).
+Before opening a pull request, make sure the project builds, typechecks, and tests successfully.
