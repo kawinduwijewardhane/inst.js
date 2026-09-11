@@ -1,17 +1,18 @@
 # Inst.js
 
-Inst.js is a capability-driven TypeScript and JavaScript web framework. Server-side Units declare their triggers, capabilities, and dependencies; the runtime executes their graphs per request, and the compiler records deployment boundaries. HTML is rendered on the server, with browser JavaScript added only through an explicit client entry.
+Inst.js is a capability-driven TypeScript and JavaScript web framework for building server-rendered applications with explicit browser boundaries.
 
-Inst.js targets Node.js 22 or newer, with Web-standard request and response APIs, SSR, static generation, deterministic builds, and a Node adapter.
+It uses Web-standard request and response APIs, supports SSR and static generation, and targets Node.js 22 or newer.
 
-## Goals
+## Highlights
 
-- Fast local development and production startup
 - Server-rendered HTML by default
-- Minimal browser JavaScript unless a feature needs it
-- Capability-first application structure instead of filesystem-driven routing
+- Minimal browser JavaScript unless explicitly needed
+- Capability-first application structure
 - First-class TypeScript support
-- Deployment through adapters instead of application rewrites
+- Web-standard Request and Response APIs
+- Deterministic production builds
+- Adapter-based deployment
 
 ## Quick start
 
@@ -38,58 +39,7 @@ export const home = defineUnit({
 });
 ```
 
-The route lives with the Unit, not in its filename. Organize features by domain, capability, or team without turning folders into routing configuration.
-
-See the [getting started guide](docs/getting-started.md) for the project structure, production build, static generation, and explicit browser entry points.
-
-## Repository
-
-This repository is a pnpm workspace. Framework packages live under `packages/` and examples live under `examples/`.
-
-```text
-packages/
-  core/          public framework contracts
-  router/        route matching and route metadata
-  runtime/       request dispatch and middleware runtime
-  render/        server HTML and streaming helpers
-  adapter-node/  Node.js HTTP adapter
-  compiler/      source analysis and build pipeline
-  cli/           inst commands
-examples/
-  basic/         small application used for integration testing
-```
-
-## Development
-
-Requirements:
-
-- Node.js 22+
-- pnpm 10+
-
-Install dependencies and run the same verification stages used by CI:
-
-```bash
-pnpm install --frozen-lockfile
-pnpm build
-pnpm example:check
-pnpm integration:development
-pnpm integration:browser
-pnpm integration:production
-pnpm release:check
-pnpm release:install-check
-pnpm typecheck
-pnpm test
-```
-
-The development integration check starts `inst dev`, verifies server-rendered output and the optional browser graph, edits both server and client source, and confirms the running server serves rebuilt output before shutting down cleanly. The browser integration check independently builds an opted-in client graph, starts the production server, and verifies the browser entry and source map are delivered only through Inst.js's explicit asset mapping.
-
-The basic example can be built directly from the workspace:
-
-```bash
-node packages/cli/dist/index.js build examples/basic
-```
-
-Before npm publication, use the workspace commands above. The packed installation check exercises a fresh generated application using local package tarballs and does not depend on unpublished packages from npm.
+Routes are declared by Units instead of being inferred from filenames, so application structure can follow the domain rather than routing conventions.
 
 ## Documentation
 
@@ -101,7 +51,14 @@ Before npm publication, use the workspace commands above. The packed installatio
 - [Build output](docs/build-output.md)
 - [Plugin authoring](docs/plugin-authoring.md)
 - [Node.js deployment](docs/deployment-node.md)
-- [Releasing](docs/releasing.md)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for vulnerability reporting and security guidance.
 
 ## License
 
