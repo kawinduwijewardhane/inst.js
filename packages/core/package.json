@@ -1,6 +1,6 @@
 {
   "name": "@instjs/core",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Core types, configuration, and Web-standard response helpers for Inst.js.",
   "license": "MIT",
   "type": "module",
