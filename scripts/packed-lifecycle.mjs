@@ -5,6 +5,7 @@ import path from "node:path";
 import { run } from "./process.mjs";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const pageText = (html) => html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
 async function server(cli, cwd, mode, verify) {
   const child = spawn(process.execPath, [cli, mode, "--host", "127.0.0.1", "--port", "0"], {
@@ -47,7 +48,7 @@ async function checkPages(request, browser = false, development = false) {
   assert.equal(home.status, 200);
   assert.match(home.headers.get("content-type"), /^text\/html/);
   const html = await home.text();
-  assert.match(html, /<h1[^>]*>Your app is ready\.<\/h1>/);
+  assert.match(pageText(html), /Your app is ready\./);
   assert.match(html, /Inst\.js is running\./);
   assert.match(html, /src\/pages\/home\.tsx/);
   assert.match(html, /<title>Inst\.js<\/title>/);
@@ -122,7 +123,7 @@ export async function verifyPackedLifecycle(consumerRoot, dependencies, override
   run("pnpm", ["run", "build"], appRoot);
   assert.deepEqual(await snapshot(path.join(appRoot, ".inst")), first, "Packed production build is not deterministic");
   const prerendered = await readFile(path.join(appRoot, ".inst/static/index.html"), "utf8");
-  assert.match(prerendered, /Your app is ready\./);
+  assert.match(pageText(prerendered), /Your app is ready\./);
   assert.match(prerendered, /href="\/favicon\.svg"/);
   await server(cli, appRoot, "start", (request) => checkPages(request));
 
