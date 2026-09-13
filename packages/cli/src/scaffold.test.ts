@@ -32,6 +32,7 @@ describe("project scaffold", () => {
     expect(manifest.devDependencies.tailwindcss).toBeDefined();
     expect(manifest.scripts.dev).toContain("styles:watch");
     expect(app).toContain("env: process.env");
+    expect(page).toContain('import Welcome from "../components/Welcome.js";');
     expect(page).toContain('definePage({');
     expect(page).toContain("view() {");
     expect(page).toContain("return <Welcome />;");
@@ -46,13 +47,19 @@ describe("project scaffold", () => {
     const root = await tempRoot("inst-scaffold-js-");
     const result = await scaffoldProject(root, { language: "javascript", tailwind: false });
     const manifest = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
+    const page = await readFile(path.join(root, "src/pages/home.jsx"), "utf8");
+    const welcome = await readFile(path.join(root, "src/components/Welcome.jsx"), "utf8");
 
     expect(result.files).toContain("src/app.js");
     expect(result.files).toContain("src/pages/home.jsx");
+    expect(result.files).toContain("src/components/Welcome.jsx");
     expect(result.files).toContain("inst.config.js");
     expect(result.files).not.toContain("tsconfig.json");
     expect(result.files).not.toContain("tailwind.config.js");
     expect(manifest.devDependencies.tailwindcss).toBeUndefined();
     expect(manifest.scripts.dev).toBe("inst dev");
+    expect(page).toContain('import Welcome from "../components/Welcome.jsx";');
+    expect(page).not.toContain('import Welcome from "../components/Welcome.js";');
+    expect(welcome).toContain("Your app is ready.");
   });
 });
