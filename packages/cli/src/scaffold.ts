@@ -153,5 +153,3 @@ export async function scaffoldProject(root: string, options: ScaffoldOptions = {
 
   return { root: resolvedRoot, files: Object.keys(files) };
 }
-
-export const scaffoldVersion = "1";
