@@ -24,13 +24,17 @@ describe("project scaffold", () => {
     const app = await readFile(path.join(root, "src/app.ts"), "utf8");
     const page = await readFile(path.join(root, "src/pages/home.tsx"), "utf8");
     const welcome = await readFile(path.join(root, "src/components/Welcome.tsx"), "utf8");
+    const styles = await readFile(path.join(root, "src/styles.css"), "utf8");
     const logo = await readFile(path.join(root, "public/logo.svg"), "utf8");
 
     expect(result.files).toContain("src/pages/home.tsx");
     expect(result.files).not.toContain("src/pages/index.ts");
-    expect(result.files).toContain("tailwind.config.js");
-    expect(manifest.devDependencies.tailwindcss).toBeDefined();
+    expect(result.files).not.toContain("tailwind.config.js");
+    expect(manifest.devDependencies.tailwindcss).toBe("^4.3.3");
+    expect(manifest.devDependencies["@tailwindcss/cli"]).toBe("^4.3.3");
     expect(manifest.scripts.dev).toContain("styles:watch");
+    expect(manifest.scripts["styles:build"]).toContain("tailwindcss");
+    expect(styles.trim()).toBe('@import "tailwindcss";');
     expect(app).toContain("env: process.env");
     expect(page).toContain('import Welcome from "../components/Welcome.js";');
     expect(page).toContain('definePage({');
@@ -57,6 +61,7 @@ describe("project scaffold", () => {
     expect(result.files).not.toContain("tsconfig.json");
     expect(result.files).not.toContain("tailwind.config.js");
     expect(manifest.devDependencies.tailwindcss).toBeUndefined();
+    expect(manifest.devDependencies["@tailwindcss/cli"]).toBeUndefined();
     expect(manifest.scripts.dev).toBe("inst dev");
     expect(page).toContain('import Welcome from "../components/Welcome.jsx";');
     expect(page).not.toContain('import Welcome from "../components/Welcome.js";');
