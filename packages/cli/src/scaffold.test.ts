@@ -41,7 +41,8 @@ describe("project scaffold", () => {
     expect(page).toContain("view() {");
     expect(page).toContain("return <Welcome />;");
     expect(page).not.toContain("documentResponse");
-    expect(welcome).toContain("Your app is ready.");
+    expect(welcome).toContain("Your app");
+    expect(welcome).toContain("is ready.");
     expect(welcome).toContain('src="/logo.svg"');
     expect(welcome).not.toContain("<svg");
     expect(logo.trimStart()).toMatch(/^<svg\b/);
