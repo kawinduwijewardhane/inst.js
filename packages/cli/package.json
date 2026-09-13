@@ -1,6 +1,6 @@
 {
   "name": "@instjs/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Command-line development, build, and project scaffolding for Inst.js.",
   "license": "MIT",
   "type": "module",
