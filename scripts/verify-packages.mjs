@@ -19,6 +19,10 @@ if (!isVersion(releaseVersion)) {
   throw new Error("Root package version must be a valid semantic version");
 }
 
+function tarPath(target) {
+  if (process.platform !== "win32") return target;
+  return target.replace(/\\/g, "/").replace(/^([A-Za-z]):/, (_, drive) => `/${drive.toLowerCase()}`);
+}
 
 function hasWorkspaceProtocol(manifest) {
   for (const field of ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"]) {
@@ -107,7 +111,8 @@ try {
     if (!archive) throw new Error(`${manifest.name}: pnpm pack did not create an archive`);
 
     const archivePath = path.join(packRoot, archive);
-    const entries = run("tar", ["-tzf", archivePath], root).split(/\r?\n/).filter(Boolean);
+    const archiveTarPath = tarPath(archivePath);
+    const entries = run("tar", ["-tzf", archiveTarPath], root).split(/\r?\n/).filter(Boolean);
     const entrySet = new Set(entries);
     if (!entrySet.has("package/package.json") || !entries.some((entry) => entry.startsWith("package/dist/"))) {
       throw new Error(`${manifest.name}: packed output must contain package.json and dist files`);
@@ -119,7 +124,7 @@ try {
       throw new Error(`${manifest.name}: tests leaked into the release archive`);
     }
 
-    const packedManifest = JSON.parse(run("tar", ["-xOzf", archivePath, "package/package.json"], root));
+    const packedManifest = JSON.parse(run("tar", ["-xOzf", archiveTarPath, "package/package.json"], root));
     if (packedManifest.name !== manifest.name || packedManifest.version !== releaseVersion) {
       throw new Error(`${manifest.name}: packed package identity changed unexpectedly`);
     }
@@ -138,7 +143,7 @@ try {
       if (!entrySet.has(archiveTarget)) {
         throw new Error(`${manifest.name}: executable target is missing from the archive: ${target}`);
       }
-      const executable = run("tar", ["-xOzf", archivePath, archiveTarget], root);
+      const executable = run("tar", ["-xOzf", archiveTarPath, archiveTarget], root);
       if (!executable.startsWith("#!/usr/bin/env node")) {
         throw new Error(`${manifest.name}: executable target must start with a Node.js shebang: ${target}`);
       }
