@@ -115,8 +115,10 @@ describe("runCli", () => {
       expect(packageJson.dependencies["@instjs/runtime"]).toBe(cliPackage.version);
       expect(await readFile(path.join(root, "src/app.ts"), "utf8")).toContain("createApplication");
       expect(await readFile(path.join(root, "src/pages/home.tsx"), "utf8")).toContain('http.get("/")');
-      expect(await readFile(path.join(root, "src/components/Welcome.tsx"), "utf8")).toContain("Your app is ready.");
-      expect(await readFile(path.join(root, "src/styles.css"), "utf8")).toContain("@tailwind utilities");
+      const welcome = await readFile(path.join(root, "src/components/Welcome.tsx"), "utf8");
+      expect(welcome).toContain("Your app");
+      expect(welcome).toContain("is ready.");
+      expect((await readFile(path.join(root, "src/styles.css"), "utf8")).trim()).toBe('@import "tailwindcss";');
       expect(await readFile(path.join(root, "public/logo.svg"), "utf8")).toContain("<svg");
       expect(await readFile(path.join(root, "public/favicon.svg"), "utf8")).toContain("<svg");
       expect(await readFile(path.join(root, "inst.config.ts"), "utf8")).toContain("defineConfig");
