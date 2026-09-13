@@ -67,7 +67,7 @@ function projectFiles(
   const devDependencies: Record<string, string> = {
     "@instjs/cli": version,
     ...(typed ? { "@types/node": "^22.0.0", typescript: "^5.9.0" } : {}),
-    ...(options.tailwind ? { concurrently: "^9.2.1", tailwindcss: "^3.4.17" } : {}),
+    ...(options.tailwind ? { "@tailwindcss/cli": "^4.3.3", concurrently: "^9.2.1", tailwindcss: "^4.3.3" } : {}),
   };
   const scripts: Record<string, string> = options.tailwind
     ? {
@@ -108,8 +108,7 @@ function projectFiles(
   };
 
   if (options.tailwind) {
-    files["src/styles.css"] = "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n";
-    files["tailwind.config.js"] = `/** @type {import('tailwindcss').Config} */\nexport default {\n  content: ["./src/**/*.{js,jsx,ts,tsx}"],\n  theme: { extend: {} },\n  plugins: [],\n};\n`;
+    files["src/styles.css"] = '@import "tailwindcss";\n';
   }
 
   if (typed) {
