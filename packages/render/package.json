@@ -1,6 +1,6 @@
 {
   "name": "@instjs/render",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Server-rendered HTML, metadata, JSX, and document helpers for Inst.js.",
   "license": "MIT",
   "type": "module",

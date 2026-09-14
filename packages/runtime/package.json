@@ -1,6 +1,6 @@
 {
   "name": "@instjs/runtime",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Web-standard request runtime and application lifecycle for Inst.js.",
   "license": "MIT",
   "type": "module",
